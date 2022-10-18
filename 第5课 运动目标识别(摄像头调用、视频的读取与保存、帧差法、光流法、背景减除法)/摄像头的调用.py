@@ -48,27 +48,82 @@ out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640,480))
     - 参数5：默认为True,彩色图
 
 """
-# 调用摄像头
-cap = cv2.VideoCapture(0)
-# 创建编码方式
-# mp4:'X','V','I','D'; avi:'M','J','P','G' 或 'P','I','M','1'; flv:'F','L','V','1'
-fourcc = cv2.VideoWriter_fourcc('F', 'L', 'V', '1')
-# 创建VideoWriter对象，路径、编码方式、帧率、宽高
-out = cv2.VideoWriter(r"./videos/output_1.flv", fourcc, 20.0, (640, 480))
-# 创建循环结构进行连续读写
-while cap.isOpened():
-    ret, frame = cap.read()
-    if ret == True:
-        out.write(frame)
-        cv2.imshow('frame', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    else:
-        break
-cap.release()
-out.release()
-cv2.destroyAllWindows()
+# # 调用摄像头
+# cap = cv2.VideoCapture(0)
+# # 创建编码方式
+# # mp4:'X','V','I','D'; avi:'M','J','P','G' 或 'P','I','M','1'; flv:'F','L','V','1'
+# fourcc = cv2.VideoWriter_fourcc('F', 'L', 'V', '1')
+# # 创建VideoWriter对象，路径、编码方式、帧率、宽高
+# out = cv2.VideoWriter(r"./videos/output_1.flv", fourcc, 20.0, (640, 480))
+# # 创建循环结构进行连续读写
+# while cap.isOpened():
+#     ret, frame = cap.read()
+#     if ret == True:
+#         out.write(frame)
+#         cv2.imshow('frame', frame)
+#         if cv2.waitKey(1) & 0xFF == ord('q'):
+#             break
+#     else:
+#         break
+# cap.release()
+# out.release()
+# cv2.destroyAllWindows()
 
 """
 修改视频格式
 """
+# 打开视频
+cap = cv2.VideoCapture(r"./videos/move_detect.flv")
+# 创建编码方式
+fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+# 获取视频帧率
+fps = cap.get(cv2.CAP_PROP_FPS)
+print(fps)
+
+# 视频图像的宽、高
+frame_width, frame_height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+print(frame_width, frame_height)
+# 创建VideoWriter对象
+out = cv2.VideoWriter(r"./videos/move_detect_new.avi", fourcc, fps, (frame_width, frame_height))
+# 循环转换
+while True:
+    ret, frame = cap.read()
+    if ret == True:
+        # 水平翻转
+        frame = cv2.flip(frame, 1)
+        # 写入
+        out.write(frame)
+        cv2.imshow("frame", frame)
+        if cv2.waitKey(25) & 0xff == ord('q'):
+            break
+    else:
+        break
+out.release()
+cap.release()
+cv2.destroyAllWindows()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
